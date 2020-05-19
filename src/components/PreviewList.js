@@ -45,15 +45,16 @@ const styles = ({palette, shape, spacing}) => ({
 });
 
 function PreviewList({
+    classes,
     fileObjects,
+    getPreviewIcon,
     handleRemove,
-    showFileNames,
-    useChipsForPreview,
+    isMultiple,
     previewChipProps,
     previewGridClasses,
     previewGridProps,
-    classes,
-    getPreviewIcon,
+    showFileNames,
+    useChipsForPreview,
 }) {
     if (useChipsForPreview) {
         return (
@@ -72,7 +73,7 @@ function PreviewList({
 
     return (
         <Grid
-            spacing={8}
+            spacing={2}
             {...previewGridProps.container}
             container={true}
             className={clsx(classes.root, previewGridClasses.container)}
@@ -80,7 +81,6 @@ function PreviewList({
             {fileObjects.map((fileObject, i) => {
                 return (
                     <Grid
-                        xs={4}
                         {...previewGridProps.item}
                         item={true}
                         key={`${fileObject.file?.name ?? 'file'}-${i}`}
@@ -113,6 +113,7 @@ PreviewList.propTypes = {
     fileObjects: PropTypes.arrayOf(PropTypes.object).isRequired,
     getPreviewIcon: PropTypes.func.isRequired,
     handleRemove: PropTypes.func.isRequired,
+    isMultiple: PropTypes.bool.isRequired,
     previewChipProps: PropTypes.object,
     previewGridClasses: PropTypes.object,
     previewGridProps: PropTypes.object,

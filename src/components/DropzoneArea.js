@@ -335,6 +335,7 @@ class DropzoneArea extends React.PureComponent {
                                     previewChipProps={previewChipProps}
                                     previewGridClasses={previewGridClasses}
                                     previewGridProps={previewGridProps}
+                                    isMultiple={isMultiple}
                                 />
                             }
                         </div>
@@ -356,6 +357,7 @@ class DropzoneArea extends React.PureComponent {
                             previewChipProps={previewChipProps}
                             previewGridClasses={previewGridClasses}
                             previewGridProps={previewGridProps}
+                            isMultiple={isMultiple}
                         />
                     </Fragment>
                 }
