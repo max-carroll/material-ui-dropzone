@@ -281,16 +281,14 @@ class DropzoneArea extends React.PureComponent {
             showAlerts,
             showFileNames,
             showFileNamesInPreview,
-            showPreviews,
-            showPreviewsInDropzone,
+            previewType,
             useChipsForPreview,
         } = this.props;
         const {fileObjects, openSnackBar, snackbarMessage, snackbarVariant} = this.state;
 
         const acceptFiles = acceptedFiles?.join(',');
         const isMultiple = filesLimit > 1;
-        const previewsVisible = showPreviews && fileObjects.length > 0;
-        const previewsInDropzoneVisible = showPreviewsInDropzone && fileObjects.length > 0;
+        const someFiles = fileObjects.length > 0;
 
         return (
             <Fragment>
@@ -325,7 +323,7 @@ class DropzoneArea extends React.PureComponent {
                                 <CloudUploadIcon className={classes.icon} />
                             </div>
 
-                            {previewsInDropzoneVisible &&
+                            {someFiles && previewType === 'inside' &&
                                 <PreviewList
                                     fileObjects={fileObjects}
                                     handleRemove={this.handleRemove}
@@ -342,7 +340,7 @@ class DropzoneArea extends React.PureComponent {
                     )}
                 </Dropzone>
 
-                {previewsVisible &&
+                {someFiles && previewType === 'below' &&
                     <Fragment>
                         <Typography variant="subtitle1" component="span">
                             {previewText}
@@ -389,8 +387,7 @@ DropzoneArea.defaultProps = {
     dropzoneText: 'Drag and drop a file here or click',
     previewText: 'Preview:',
     disableRejectionFeedback: false,
-    showPreviews: false, // By default previews show up under in the dialog and inside in the standalone
-    showPreviewsInDropzone: true,
+    previewType: 'inside', //
     showFileNames: false,
     showFileNamesInPreview: false,
     useChipsForPreview: false,
@@ -442,10 +439,8 @@ DropzoneArea.propTypes = {
     dropzoneParagraphClass: PropTypes.string,
     /** Disable feedback effect when dropping rejected files. */
     disableRejectionFeedback: PropTypes.bool,
-    /** Shows previews **BELOW** the dropzone. */
-    showPreviews: PropTypes.bool,
-    /** Shows preview **INSIDE** the dropzone area. */
-    showPreviewsInDropzone: PropTypes.bool,
+    /** Determines previews behaviour 'inside', 'below', 'none'. */
+    previewType: PropTypes.string,
     /** Shows file name under the dropzone image. */
     showFileNames: PropTypes.bool,
     /** Shows file name under the image. */
