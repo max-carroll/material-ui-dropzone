@@ -12,9 +12,11 @@ import {GridList, GridListTile, GridListTileBar, IconButton} from '@material-ui/
 
 const styles = ({palette, shape, spacing}) => ({
     root: {
-        position: 'absolute',
+        position: 'absolute', // makes it go over the top of the writting
         width: '100%',
         height: '100%',
+        // padding: spacing(2),
+        margin: 0,
     },
     rootSingle: {
 
@@ -31,26 +33,14 @@ const styles = ({palette, shape, spacing}) => ({
     titleBarTransparent: {
         background: 'none',
     },
-    image: {
-        width: 'initial',
-        maxWidth: '100%',
-        color: palette.text.primary,
-        transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-        boxSizing: 'border-box',
-        boxShadow: 'rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px',
-        borderRadius: shape.borderRadius,
-        zIndex: 5,
-        opacity: 1,
-    },
     iconWrapper: {
         height: '100%',
-        backgroundColor: 'white',
-        // marginTop: theme,
+        backgroundColor: '#f2f2f2', // TODO do this properly
     },
     fileIcon: {
         flexGrow: 1,
         height: '50%',
-        marginTop: spacing(2),
+        marginTop: spacing(3),
     },
 });
 
@@ -67,11 +57,6 @@ function PreviewList({
     showFileNames,
     useChipsForPreview,
 }) {
-    const isMultiple = filesLimit > 1;
-    const containerProps = {
-        justify: isMultiple ? 'flex-start' : 'center',
-    };
-
     const returnBelowLimit = (number) => {
         if (number < filesLimit) {
             return number;
@@ -120,16 +105,16 @@ function PreviewList({
                 const isImage = isImageCheck(fileObject.file);
                 return (
                     <GridListTile
-                        key={`${fileObject.file?.name ?? 'file'}-${i}`} {...previewGridProps?.gridListTitleBar}
+                        key={`${fileObject.file?.name ?? 'file'}-${i}`}
                         className={clsx({[classes.iconWrapper]: !isImage})}
+                        {...previewGridProps?.gridListTitleBar}
                     >
-
                         {getPreviewIcon(fileObject, classes, isImage)}
 
                         <GridListTileBar
                             title={fileTitle}
-                            titlePosition="bottom" // make configurable
-                            actionPosition=""
+                            titlePosition="bottom" // TODO make configurable
+                            actionPosition="" // TODO make configurable
                             actionIcon={
                                 <IconButton aria-label={'remove'}
                                     className={classes.icon}
@@ -168,12 +153,14 @@ export default withWidth()(withStyles(styles, {name: 'MuiDropzonePreviewList', w
 // TODO
 /*
 
-configure position of titlebar (top bottom)
-configure position of actionbottom (left right)
-configure background of title bar
+[] configure position of titlebar (top bottom)
+[] configure position of actionbottom (left right)
+[] configure background of title bar
+[] configure whether to stretch images or center them for single mode
+[] fix the preview below  behaviour
+[] make xs md lg xs configurable for GridTiles
 
-
-configure whether to stretch images or center them for single mode
+[] check to see if somethings can be configured via the pallette for the preview
 
 get tile list working for files
 

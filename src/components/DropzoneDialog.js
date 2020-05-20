@@ -184,11 +184,6 @@ DropzoneDialog.propTypes = {
      * @param {File[]} files All the files currently inside the Dropzone.
      */
     onSave: PropTypes.func,
-    /**
-     * Shows previews **BELOW** the dropzone.<br/>
-     * **Note:** By default previews show up under in the Dialog and inside in the standalone.
-     */
-    showPreviewsInDropzone: PropTypes.string,
     /** Shows file name image. */
     showFileNames: PropTypes.bool,
 };
