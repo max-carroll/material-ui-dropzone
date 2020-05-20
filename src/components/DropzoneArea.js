@@ -69,6 +69,23 @@ const defaultSnackbarAnchorOrigin = {
     vertical: 'bottom',
 };
 
+const defaultGetCols = (width, filesLimit) => {
+    const returnBelowLimit = (number) => {
+        if (number < filesLimit) {
+            return number;
+        }
+        return filesLimit;
+    };
+
+    switch (width) {
+        case 'xs': return returnBelowLimit(1) ;
+        case 'sm': return returnBelowLimit(2);
+        case 'md': return returnBelowLimit(3);
+        case 'lg': return returnBelowLimit(4);
+        case 'xl' : return returnBelowLimit(5);
+    }
+};
+
 const defaultGetPreviewIcon = (fileObject, classes, isImage, titleBarTop) => {
     if (isImage) {
         return (<img
@@ -280,6 +297,7 @@ class DropzoneArea extends React.PureComponent {
             maxFileSize,
 
             // preview related
+            getCols,
             getPreviewIcon,
             previewChipProps,
             previewGridClasses,
@@ -335,6 +353,7 @@ class DropzoneArea extends React.PureComponent {
                                 <PreviewList
                                     fileObjects={fileObjects}
                                     handleRemove={this.handleRemove}
+                                    getCols={getCols}
                                     getPreviewIcon={getPreviewIcon}
                                     showFileNames={showFileNames}
                                     useChipsForPreview={useChipsForPreview}
@@ -358,6 +377,7 @@ class DropzoneArea extends React.PureComponent {
                         <PreviewList
                             fileObjects={fileObjects}
                             handleRemove={this.handleRemove}
+                            getCols={getCols}
                             getPreviewIcon={getPreviewIcon}
                             showFileNames={showFileNames}
                             useChipsForPreview={useChipsForPreview}
@@ -416,6 +436,7 @@ DropzoneArea.defaultProps = {
     getFileLimitExceedMessage: (filesLimit) => (`Maximum allowed number of files exceeded. Only ${filesLimit} allowed`),
     getFileAddedMessage: (fileName) => (`File ${fileName} successfully added.`),
     getPreviewIcon: defaultGetPreviewIcon,
+    getCols: defaultGetCols,
     getFileRemovedMessage: (fileName) => (`File ${fileName} removed.`),
     getDropRejectMessage: (rejectedFile, acceptedFiles, maxFileSize) => {
         let message = `File ${rejectedFile.name} was rejected. `;
@@ -541,6 +562,19 @@ DropzoneArea.propTypes = {
      * @param {Object} classes The classes for the file preview icon, in the default case we use the 'image' className.
      */
     getPreviewIcon: PropTypes.func,
+
+    /**
+     * A function which determines which the number of columns to display in the preview list
+     *
+     * *Default*: Returns a sensible number of columns depending on the screen size (i.e. xs=1, sm=2, md=3, lg=4, xl=5) without exceeding the filesLimit (e.g. There would be no point displaying 4 columns if the filesLimit is 3)
+     *
+     * @param {string} width Width prop from withWidth, this will be one of ['xs','sm','md','lg','xl'] depending on the current screen size
+     * @param {number} filesLimit The `filesLimit` prop
+     * @param {number} currentNumberOfFiles The number of files in the `state.fileObjects`
+     */
+    getCols: PropTypes.func,
+
+
     /**
      * Fired when the files inside dropzone change.
      *

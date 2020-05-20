@@ -1,7 +1,4 @@
 import Chip from '@material-ui/core/Chip';
-import Fab from '@material-ui/core/Fab';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import {withStyles, withWidth} from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
 import clsx from 'clsx';
@@ -15,23 +12,11 @@ const styles = ({palette, shape, spacing}) => ({
         position: 'absolute', // makes it go over the top of the writting
         width: '100%',
         height: '100%',
-        // padding: spacing(2),
         margin: 0,
-    },
-    rootSingle: {
-
+        backgroundColor: 'rgba(255,255,255,0.87)',
     },
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
-    },
-
-    titleBarDark: {
-        background:
-        'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-    },
-    titleBarTransparent: {
-        background: 'none',
     },
     iconWrapper: {
         height: '100%',
@@ -60,33 +45,10 @@ function PreviewList({
     width,
     showFileNames,
     useChipsForPreview,
+    getCols,
 }) {
-    const returnBelowLimit = (number) => {
-        if (number < filesLimit) {
-            return number;
-        }
-        return filesLimit;
-    };
-
     const previewInside = previewType === 'inside';// extract to constants?
-
-    const getCols = () => {
-        // it may also make sense to take into consideration the max files here for instance
-        // whats the point of having 4 cols when we have a max of free files
-        // maybe we want the images to take up the max number of columns until its reached
-
-        // if (!isMultiple) return 1;
-
-        switch (width) {
-            case 'xs': return returnBelowLimit(1) ;
-            case 'sm': return returnBelowLimit(2);
-            case 'md': return returnBelowLimit(3);
-            case 'lg': return returnBelowLimit(4);
-            case 'xl' : return returnBelowLimit(5);
-        }
-    };
-
-    const cols = getCols();
+    const cols = getCols(width, filesLimit, fileObjects.length);
 
 
     if (useChipsForPreview) {
@@ -149,6 +111,7 @@ function PreviewList({
 PreviewList.propTypes = {
     classes: PropTypes.object.isRequired,
     fileObjects: PropTypes.arrayOf(PropTypes.object).isRequired,
+    getCols: PropTypes.func.isRequired,
     getPreviewIcon: PropTypes.func.isRequired,
     handleRemove: PropTypes.func.isRequired,
     filesLimit: PropTypes.number.isRequired,
@@ -169,14 +132,11 @@ export default withWidth()(withStyles(styles, {name: 'MuiDropzonePreviewList', w
 [x] configure position of titlebar (top bottom)
 [x] configure position of actionbottom (left right)
 [x] configure background of title bar
-[ ] configure whether to stretch images or center them for single mode
 [x] fix the preview below  behaviour
 [ ] ensure the preview none behaviour works
 [ ] make xs md lg xs configurable for GridTiles
 
 [ ] check to see if somethings can be configured via the pallette for the preview
-[ ] mouseover of remove button look a little bit less potent than it did
-get tile list working for files
 [x] Maybe dull the message a little bit when files are active (or hide it, or better make it configurable)
 
 */
