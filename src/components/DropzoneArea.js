@@ -342,6 +342,7 @@ class DropzoneArea extends React.PureComponent {
                                     previewGridClasses={previewGridClasses}
                                     previewGridProps={previewGridProps}
                                     filesLimit={filesLimit}
+                                    previewType={previewType}
                                 />
                             }
                         </div>
@@ -364,6 +365,7 @@ class DropzoneArea extends React.PureComponent {
                             previewGridClasses={previewGridClasses}
                             previewGridProps={previewGridProps}
                             filesLimit={filesLimit}
+                            previewType={previewType}
                         />
                     </Fragment>
                 }

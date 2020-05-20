@@ -53,6 +53,7 @@ function PreviewList({
     previewChipProps,
     previewGridClasses,
     previewGridProps,
+    previewType,
     width,
     showFileNames,
     useChipsForPreview,
@@ -64,9 +65,12 @@ function PreviewList({
         return filesLimit;
     };
 
+    const previewInside = previewType === 'inside';// extract to constants?
+
     const getCols = () => {
         // it may also make sense to take into consideration the max files here for instance
         // whats the point of having 4 cols when we have a max of free files
+        // maybe we want the images to take up the max number of columns until its reached
 
         // if (!isMultiple) return 1;
 
@@ -98,7 +102,9 @@ function PreviewList({
     }
 
     return (
-        <GridList cols={cols} className={clsx(classes.root, previewGridClasses.container)} {...previewGridProps?.gridList}>
+        <GridList cols={cols}
+            className={clsx({[classes.root]: previewInside}, previewGridClasses.container)}
+            {...previewGridProps?.gridList}>
             {fileObjects.map((fileObject, i) => {
                 const fileTitle = showFileNames && fileObject.file?.name;
 
@@ -144,6 +150,7 @@ PreviewList.propTypes = {
     previewChipProps: PropTypes.object,
     previewGridClasses: PropTypes.object,
     previewGridProps: PropTypes.object,
+    previewType: PropTypes.string.isRequired,
     showFileNames: PropTypes.bool.isRequired,
     useChipsForPreview: PropTypes.bool,
 };
@@ -153,15 +160,16 @@ export default withWidth()(withStyles(styles, {name: 'MuiDropzonePreviewList', w
 // TODO
 /*
 
-[] configure position of titlebar (top bottom)
-[] configure position of actionbottom (left right)
-[] configure background of title bar
-[] configure whether to stretch images or center them for single mode
-[] fix the preview below  behaviour
-[] make xs md lg xs configurable for GridTiles
+[ ] configure position of titlebar (top bottom)
+[ ] configure position of actionbottom (left right)
+[ ] configure background of title bar
+[ ] configure whether to stretch images or center them for single mode
+[x] fix the preview below  behaviour
+[ ] ensure the preview none behaviour works
+[ ] make xs md lg xs configurable for GridTiles
 
-[] check to see if somethings can be configured via the pallette for the preview
-
+[ ] check to see if somethings can be configured via the pallette for the preview
+[ ] mouseover of remove button look a little bit less potent than it did
 get tile list working for files
 
 */
