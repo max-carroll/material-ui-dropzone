@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import * as React from 'react';
 import {Fragment} from 'react';
 import Dropzone from 'react-dropzone';
-import {convertBytesToMbsOrKbs, createFileFromUrl, isImage, readFile} from '../helpers';
+import {convertBytesToMbsOrKbs, createFileFromUrl, readFile} from '../helpers';
 import PreviewList from './PreviewList';
 import SnackbarContentWrapper from './SnackbarContentWrapper';
 
@@ -46,17 +46,12 @@ const styles = ({palette, shape, spacing}) => ({
         borderColor: palette.primary.light,
     },
     invalid: {
-        // eslint-disable-next-line max-len
+    // eslint-disable-next-line max-len
         backgroundImage: `repeating-linear-gradient(-45deg, ${palette.error.light}, ${palette.error.light} 25px, ${palette.error.dark} 25px, ${palette.error.dark} 50px)`,
         borderColor: palette.error.main,
     },
     textContainer: {
         display: 'flex',
-        // flexGrow: 1,
-        // position: 'relative',
-        // top: '50%',
-        // transform: 'translateY(-50%)',
-        //        textAlign: 'center',
     },
     text: {
         marginBottom: spacing(3),
@@ -74,16 +69,17 @@ const defaultSnackbarAnchorOrigin = {
     vertical: 'bottom',
 };
 
-const defaultGetPreviewIcon = (fileObject, classes) => {
-    if (isImage(fileObject.file)) {
+const defaultGetPreviewIcon = (fileObject, classes, isImage) => {
+    if (isImage) {
         return (<img
-            className={classes.image}
             role="presentation"
             src={fileObject.data}
         />);
     }
 
-    return <AttachFileIcon className={classes.image} />;
+    return <Grid container className={classes.iconWrapper} justify="center" >
+        <AttachFileIcon className={classes.fileIcon} />
+    </Grid>;
 };
 
 /**
@@ -115,38 +111,38 @@ class DropzoneArea extends React.PureComponent {
         }
     }
 
-    filesArray = async(urls) => {
-        try {
-            const fileObjs = await Promise.all(
-                urls.map(async(url) => {
-                    const file = await createFileFromUrl(url);
-                    const data = await readFile(file);
+  filesArray = async(urls) => {
+      try {
+          const fileObjs = await Promise.all(
+              urls.map(async(url) => {
+                  const file = await createFileFromUrl(url);
+                  const data = await readFile(file);
 
-                    return {
-                        file,
-                        data,
-                    };
-                })
-            );
+                  return {
+                      file,
+                      data,
+                  };
+              })
+          );
 
-            this.setState((state) => ({
-                fileObjects: [].concat(
-                    state.fileObjects,
-                    fileObjs
-                ),
-            }),
-            () => {
-                const {onChange} = this.props;
-                const {fileObjects} = this.state;
+          this.setState((state) => ({
+              fileObjects: [].concat(
+                  state.fileObjects,
+                  fileObjs
+              ),
+          }),
+          () => {
+              const {onChange} = this.props;
+              const {fileObjects} = this.state;
 
-                if (onChange) {
-                    onChange(fileObjects.map((fileObject) => fileObject.file));
-                }
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    }
+              if (onChange) {
+                  onChange(fileObjects.map((fileObject) => fileObject.file));
+              }
+          });
+      } catch (err) {
+          console.log(err);
+      }
+  }
 
     handleDropAccepted = async(acceptedFiles, evt) => {
         const {filesLimit, getFileAddedMessage, getFileLimitExceedMessage, onDrop} = this.props;
@@ -187,7 +183,7 @@ class DropzoneArea extends React.PureComponent {
 
         // Update component state
         this.setState((state) => {
-            // Handle a single file
+        // Handle a single file
             if (filesLimit <= 1) {
                 return {
                     fileObjects: [].concat(fileObjs[0]),
