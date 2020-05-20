@@ -144,9 +144,7 @@ DropzoneDialog.defaultProps = {
     maxWidth: 'sm',
     cancelButtonText: 'Cancel',
     submitButtonText: 'Submit',
-    showPreviews: true,
-    showPreviewsInDropzone: false,
-    showFileNamesInPreview: true,
+    previewType: 'inside',
 };
 
 DropzoneDialog.propTypes = {
@@ -190,11 +188,9 @@ DropzoneDialog.propTypes = {
      * Shows previews **BELOW** the dropzone.<br/>
      * **Note:** By default previews show up under in the Dialog and inside in the standalone.
      */
-    showPreviews: PropTypes.bool,
-    /** Shows preview **INSIDE** the dropzone area. */
-    showPreviewsInDropzone: PropTypes.bool,
-    /** Shows file name under the image. */
-    showFileNamesInPreview: PropTypes.bool,
+    showPreviewsInDropzone: PropTypes.string,
+    /** Shows file name image. */
+    showFileNames: PropTypes.bool,
 };
 
 export default DropzoneDialog;

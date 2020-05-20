@@ -28,7 +28,7 @@ const [open, setOpen] = React.useState(false);
       setOpen(false);
     }}
     showPreviews={true}
-    showFileNamesInPreview={true}
+    showFileNames={true}
   />
 </div>
 ```

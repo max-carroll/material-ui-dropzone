@@ -288,14 +288,13 @@ class DropzoneArea extends React.PureComponent {
             previewChipProps,
             previewGridClasses,
             previewGridProps,
-            showFileNamesInPreview,
             previewType,
+            showFileNames,
             useChipsForPreview,
             previewText,
 
 
             showAlerts,
-            showFileNames,
         } = this.props;
         const {fileObjects, openSnackBar, snackbarMessage, snackbarVariant} = this.state;
 
@@ -363,7 +362,7 @@ class DropzoneArea extends React.PureComponent {
                             fileObjects={fileObjects}
                             handleRemove={this.handleRemove}
                             getPreviewIcon={getPreviewIcon}
-                            showFileNames={showFileNamesInPreview}
+                            showFileNames={showFileNames}
                             useChipsForPreview={useChipsForPreview}
                             previewChipProps={previewChipProps}
                             previewGridClasses={previewGridClasses}
@@ -402,7 +401,6 @@ DropzoneArea.defaultProps = {
     disableRejectionFeedback: false,
     previewType: 'inside', //
     showFileNames: false,
-    showFileNamesInPreview: false,
     useChipsForPreview: false,
     previewChipProps: {},
     previewGridClasses: {},
@@ -456,8 +454,6 @@ DropzoneArea.propTypes = {
     previewType: PropTypes.string,
     /** Shows file name under the dropzone image. */
     showFileNames: PropTypes.bool,
-    /** Shows file name under the image. */
-    showFileNamesInPreview: PropTypes.bool,
     /** Uses deletable Material-UI Chip components to display file names. */
     useChipsForPreview: PropTypes.bool,
     /**

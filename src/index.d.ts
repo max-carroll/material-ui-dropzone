@@ -27,7 +27,6 @@ export interface DropzoneAreaProps {
   dropzoneText?: string;
   previewText?: string;
   previewType: PreviewType;
-  showFileNamesInPreview?: boolean;
   showFileNames?: boolean;
   useChipsForPreview?: boolean;
   previewChipProps?: ChipProps;

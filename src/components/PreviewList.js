@@ -59,6 +59,9 @@ function PreviewList({
     const getCols = () => {
         // it may also make sense to take into consideration the max files here for instance
         // whats the point of having 4 cols when we have a max of free files
+
+        // if (!isMultiple) return 1;
+
         switch (width) {
             case 'xs': return returnBelowLimit(1) ;
             case 'sm': return returnBelowLimit(2);
@@ -87,20 +90,18 @@ function PreviewList({
     }
 
     return (
-        <GridList cols={cols}
-            className={clsx(classes.root, previewGridClasses.container, {[classes.rootSingle]: !isMultiple})}
-        >
+        <GridList cols={cols} className={clsx(classes.root, previewGridClasses.container)} {...previewGridProps?.gridList}>
             {fileObjects.map((fileObject, i) => {
                 const fileTitle = `${fileObject.file?.name ?? 'file'}-${i}`;
 
                 return (
                     <GridListTile
-                        key={`${fileObject.file?.name ?? 'file'}-${i}`}
+                        key={`${fileObject.file?.name ?? 'file'}-${i}`} {...previewGridProps?.gridListTitleBar}
                     >
                         {getPreviewIcon(fileObject, classes)}
 
                         <GridListTileBar
-                            // className={clsx({[classes.titleBarDark]: true})} // need to think about the visibility of the button here
+
                             title={showFileNames && fileTitle}
                             titlePosition="bottom" // make configurable
                             actionPosition=""
@@ -112,6 +113,7 @@ function PreviewList({
                                     <DeleteIcon />
                                 </IconButton>
                             }
+                            {...previewGridProps?.gridListTitleBar}
                         />
 
 
@@ -143,6 +145,9 @@ export default withWidth()(withStyles(styles, {name: 'MuiDropzonePreviewList', w
 configure position of titlebar (top bottom)
 configure position of actionbottom (left right)
 configure background of title bar
+
+
+configure whether to stretch images or center them for single mode
 
 get tile list working for files
 
