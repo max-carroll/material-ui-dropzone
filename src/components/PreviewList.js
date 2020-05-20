@@ -92,7 +92,8 @@ function PreviewList({
     return (
         <GridList cols={cols} className={clsx(classes.root, previewGridClasses.container)} {...previewGridProps?.gridList}>
             {fileObjects.map((fileObject, i) => {
-                const fileTitle = `${fileObject.file?.name ?? 'file'}-${i}`;
+                const fileTitle = showFileNames && fileObject.file?.name;
+
 
                 return (
                     <GridListTile
@@ -101,8 +102,7 @@ function PreviewList({
                         {getPreviewIcon(fileObject, classes)}
 
                         <GridListTileBar
-
-                            title={showFileNames && fileTitle}
+                            title={fileTitle}
                             titlePosition="bottom" // make configurable
                             actionPosition=""
                             actionIcon={
@@ -133,7 +133,7 @@ PreviewList.propTypes = {
     previewChipProps: PropTypes.object,
     previewGridClasses: PropTypes.object,
     previewGridProps: PropTypes.object,
-    showFileNames: PropTypes.bool,
+    showFileNames: PropTypes.bool.isRequired,
     useChipsForPreview: PropTypes.bool,
 };
 
