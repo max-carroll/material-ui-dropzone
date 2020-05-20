@@ -7,7 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import clsx from 'clsx';
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import {GridList, GridListTile} from '@material-ui/core';
+import {GridList, GridListTile, GridListTileBar, IconButton} from '@material-ui/core';
 
 const styles = ({palette, shape, spacing}) => ({
     root: {
@@ -18,36 +18,16 @@ const styles = ({palette, shape, spacing}) => ({
     rootSingle: {
 
     },
-    imageContainer: {
-        position: 'relative',
-        zIndex: 10,
-        textAlign: 'center',
-        '&:hover $image': {
-            opacity: 0.3,
-        },
-        '&:hover $removeButton': {
-            opacity: 1,
-        },
+    icon: {
+        color: 'rgba(255, 255, 255, 0.54)',
     },
-    image: {
-        width: 'initial',
-        maxWidth: '100%',
-        color: palette.text.primary,
-        transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-        boxSizing: 'border-box',
-        boxShadow: 'rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px',
-        borderRadius: shape.borderRadius,
-        zIndex: 5,
-        opacity: 1,
+    titleBarDark: {
+        background:
+        'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+        'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
     },
-    removeButton: {
-        transition: '.5s ease',
-        position: 'absolute',
-        opacity: 0,
-        top: spacing(-1),
-        right: spacing(-1),
-        width: 40,
-        height: 40,
+    titleBarTransparent: {
+        background: 'none',
     },
 });
 
@@ -83,41 +63,34 @@ function PreviewList({
     }
 
     return (
-    // <Grid
-    //     spacing={2}
-    //     {...previewGridProps.container}
-    //     {...containerProps}
-    //     container={true}
-    //     className={clsx(classes.root, previewGridClasses.container, {[classes.rootSingle]: !isMultiple})}
-    // >
-
         <GridList cols={4}
             className={clsx(classes.root, previewGridClasses.container, {[classes.rootSingle]: !isMultiple})}
         >
             {fileObjects.map((fileObject, i) => {
+                const fileTitle = `${fileObject.file?.name ?? 'file'}-${i}`;
+
                 return (
                     <GridListTile
-
-                        // {...previewGridProps.item}
-                        // item={true}
                         key={`${fileObject.file?.name ?? 'file'}-${i}`}
-                        // className={clsx(classes.imageContainer, previewGridClasses.item)}
                     >
                         {getPreviewIcon(fileObject, classes)}
 
-                        {/* {showFileNames && (
-                            <Typography variant="body1" component="p">
-                                {fileObject.file.name}
-                            </Typography>
-                        )} */}
+                        <GridListTileBar
+                            // className={clsx({[classes.titleBarDark]: true})} // need to think about the visibility of the button here
+                            title={showFileNames && fileTitle}
+                            titlePosition="bottom" // make configurable
+                            actionPosition=""
+                            actionIcon={
+                                <IconButton aria-label={'remove'}
+                                    className={classes.icon}
+                                    onClick={handleRemove(i)}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            }
+                        />
 
-                        <Fab
-                            onClick={handleRemove(i)}
-                            aria-label="Delete"
-                            className={classes.removeButton}
-                        >
-                            <DeleteIcon />
-                        </Fab>
+
                     </GridListTile>
                 );
             })}
@@ -139,3 +112,14 @@ PreviewList.propTypes = {
 };
 
 export default withStyles(styles, {name: 'MuiDropzonePreviewList'})(PreviewList);
+
+// TODO
+/*
+
+configure position of titlebar (top bottom)
+configure position of actionbottom (left right)
+configure background of title bar
+
+get tile list working for files
+
+*/
