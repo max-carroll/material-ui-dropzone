@@ -2,7 +2,7 @@ import Chip from '@material-ui/core/Chip';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import {withStyles} from '@material-ui/core/styles';
+import {withStyles, withWidth} from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
 import clsx from 'clsx';
 import * as React from 'react';
@@ -36,16 +36,40 @@ function PreviewList({
     fileObjects,
     getPreviewIcon,
     handleRemove,
-    isMultiple,
+    filesLimit,
     previewChipProps,
     previewGridClasses,
     previewGridProps,
+    width,
     showFileNames,
     useChipsForPreview,
 }) {
+    const isMultiple = filesLimit > 1;
     const containerProps = {
         justify: isMultiple ? 'flex-start' : 'center',
     };
+
+    const returnBelowLimit = (number) => {
+        if (number < filesLimit) {
+            return number;
+        }
+        return filesLimit;
+    };
+
+    const getCols = () => {
+        // it may also make sense to take into consideration the max files here for instance
+        // whats the point of having 4 cols when we have a max of free files
+        switch (width) {
+            case 'xs': return returnBelowLimit(1) ;
+            case 'sm': return returnBelowLimit(2);
+            case 'md': return returnBelowLimit(3);
+            case 'lg': return returnBelowLimit(4);
+            case 'xl' : return returnBelowLimit(5);
+        }
+    };
+
+    const cols = getCols();
+
 
     if (useChipsForPreview) {
         return (
@@ -63,7 +87,7 @@ function PreviewList({
     }
 
     return (
-        <GridList cols={4}
+        <GridList cols={cols}
             className={clsx(classes.root, previewGridClasses.container, {[classes.rootSingle]: !isMultiple})}
         >
             {fileObjects.map((fileObject, i) => {
@@ -103,7 +127,7 @@ PreviewList.propTypes = {
     fileObjects: PropTypes.arrayOf(PropTypes.object).isRequired,
     getPreviewIcon: PropTypes.func.isRequired,
     handleRemove: PropTypes.func.isRequired,
-    isMultiple: PropTypes.bool.isRequired,
+    filesLimit: PropTypes.number.isRequired,
     previewChipProps: PropTypes.object,
     previewGridClasses: PropTypes.object,
     previewGridProps: PropTypes.object,
@@ -111,7 +135,7 @@ PreviewList.propTypes = {
     useChipsForPreview: PropTypes.bool,
 };
 
-export default withStyles(styles, {name: 'MuiDropzonePreviewList'})(PreviewList);
+export default withWidth()(withStyles(styles, {name: 'MuiDropzonePreviewList', withTheme: true})(PreviewList));
 
 // TODO
 /*
