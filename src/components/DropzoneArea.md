@@ -22,6 +22,16 @@ import { DropzoneArea } from 'material-ui-dropzone';
 />
 ```
 
+### Single file mode
+
+```jsx
+<DropzoneArea
+  filesLimit={1}
+  onChange={(files) => console.log('Files:', files)}
+/>
+```
+
+
 ### Custom Preview Icon
 
 Demonstration of how to customize the preview icon for:

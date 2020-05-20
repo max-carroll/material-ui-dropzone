@@ -1,3 +1,4 @@
+import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
 import {withStyles} from '@material-ui/core/styles';
@@ -22,6 +23,7 @@ const styles = ({palette, shape, spacing}) => ({
         },
     },
     root: {
+        display: 'flex',
         position: 'relative',
         width: '100%',
         minHeight: '250px',
@@ -32,6 +34,8 @@ const styles = ({palette, shape, spacing}) => ({
         boxSizing: 'border-box',
         cursor: 'pointer',
         overflow: 'hidden',
+        flexDirection: 'column',
+        justifyContent: 'center',
     },
     active: {
         animation: '$progress 2s linear infinite !important',
@@ -47,7 +51,12 @@ const styles = ({palette, shape, spacing}) => ({
         borderColor: palette.error.main,
     },
     textContainer: {
-        textAlign: 'center',
+        display: 'flex',
+        // flexGrow: 1,
+        // position: 'relative',
+        // top: '50%',
+        // transform: 'translateY(-50%)',
+        //        textAlign: 'center',
     },
     text: {
         marginBottom: spacing(3),
@@ -271,18 +280,22 @@ class DropzoneArea extends React.PureComponent {
             dropzoneProps,
             dropzoneText,
             filesLimit,
-            getPreviewIcon,
             inputProps,
             maxFileSize,
+
+            // preview related
+            getPreviewIcon,
             previewChipProps,
             previewGridClasses,
             previewGridProps,
-            previewText,
-            showAlerts,
-            showFileNames,
             showFileNamesInPreview,
             previewType,
             useChipsForPreview,
+            previewText,
+
+
+            showAlerts,
+            showFileNames,
         } = this.props;
         const {fileObjects, openSnackBar, snackbarMessage, snackbarVariant} = this.state;
 
@@ -312,7 +325,7 @@ class DropzoneArea extends React.PureComponent {
                         >
                             <input {...inputProps} {...getInputProps()} />
 
-                            <div className={classes.textContainer}>
+                            <Grid container className={classes.textContainer} direction="column" justifyContent="center" alignItems="center">
                                 <Typography
                                     variant="h5"
                                     component="p"
@@ -321,7 +334,7 @@ class DropzoneArea extends React.PureComponent {
                                     {dropzoneText}
                                 </Typography>
                                 <CloudUploadIcon className={classes.icon} />
-                            </div>
+                            </Grid>
 
                             {someFiles && previewType === 'inside' &&
                                 <PreviewList
@@ -360,7 +373,7 @@ class DropzoneArea extends React.PureComponent {
                     </Fragment>
                 }
 
-                {((typeof showAlerts === 'boolean' && showAlerts)  || (Array.isArray(showAlerts) && showAlerts.includes(snackbarVariant))) &&
+                {((typeof showAlerts === 'boolean' && showAlerts) || (Array.isArray(showAlerts) && showAlerts.includes(snackbarVariant))) &&
                     <Snackbar
                         anchorOrigin={defaultSnackbarAnchorOrigin}
                         autoHideDuration={6000}

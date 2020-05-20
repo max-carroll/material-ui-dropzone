@@ -18,14 +18,15 @@ export interface PreviewIconProps {
 
 export type AlertType = 'error' | 'success' | 'info';
 
+export type PreviewType = 'inside' | 'below' | 'none'
+
 export interface DropzoneAreaProps {
   acceptedFiles?: string[];
   filesLimit?: number;
   maxFileSize?: number;
   dropzoneText?: string;
   previewText?: string;
-  showPreviews?: boolean;
-  showPreviewsInDropzone?: boolean;
+  previewType: PreviewType;
   showFileNamesInPreview?: boolean;
   showFileNames?: boolean;
   useChipsForPreview?: boolean;

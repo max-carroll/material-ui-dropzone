@@ -9,7 +9,14 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 const styles = ({palette, shape, spacing}) => ({
-    root: {},
+    root: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+    },
+    rootSingle: {
+
+    },
     imageContainer: {
         position: 'relative',
         zIndex: 10,
@@ -56,6 +63,10 @@ function PreviewList({
     showFileNames,
     useChipsForPreview,
 }) {
+    const containerProps = {
+        justify: isMultiple ? 'flex-start' : 'center',
+    };
+
     if (useChipsForPreview) {
         return (
             fileObjects.map((fileObject, i) => (
@@ -75,8 +86,9 @@ function PreviewList({
         <Grid
             spacing={2}
             {...previewGridProps.container}
+            {...containerProps}
             container={true}
-            className={clsx(classes.root, previewGridClasses.container)}
+            className={clsx(classes.root, previewGridClasses.container, {[classes.rootSingle]: !isMultiple})}
         >
             {fileObjects.map((fileObject, i) => {
                 return (
