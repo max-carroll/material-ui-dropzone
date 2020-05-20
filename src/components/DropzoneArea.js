@@ -69,7 +69,7 @@ const defaultSnackbarAnchorOrigin = {
     vertical: 'bottom',
 };
 
-const defaultGetPreviewIcon = (fileObject, classes, isImage) => {
+const defaultGetPreviewIcon = (fileObject, classes, isImage, titleBarTop) => {
     if (isImage) {
         return (<img
             role="presentation"
@@ -78,7 +78,7 @@ const defaultGetPreviewIcon = (fileObject, classes, isImage) => {
     }
 
     return <Grid container className={classes.iconWrapper} justify="center" >
-        <AttachFileIcon className={classes.fileIcon} />
+        <AttachFileIcon className={clsx(classes.fileIcon, {[classes.fileIconBottom]: titleBarTop})} />
     </Grid>;
 };
 
@@ -398,7 +398,7 @@ DropzoneArea.defaultProps = {
     previewText: 'Preview:',
     disableRejectionFeedback: false,
     previewType: 'inside', //
-    showFileNames: false,
+    showFileNames: true,
     useChipsForPreview: false,
     previewChipProps: {},
     previewGridClasses: {},

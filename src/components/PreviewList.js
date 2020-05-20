@@ -42,6 +42,9 @@ const styles = ({palette, shape, spacing}) => ({
         height: '50%',
         marginTop: spacing(3),
     },
+    fileIconBottom: {
+        marginTop: spacing(9),
+    },
 });
 
 function PreviewList({
@@ -113,14 +116,17 @@ function PreviewList({
                     <GridListTile
                         key={`${fileObject.file?.name ?? 'file'}-${i}`}
                         className={clsx({[classes.iconWrapper]: !isImage})}
-                        {...previewGridProps?.gridListTitleBar}
+                        {...previewGridProps?.gridListTitle}
                     >
-                        {getPreviewIcon(fileObject, classes, isImage)}
+                        {getPreviewIcon(
+                            fileObject,
+                            classes,
+                            isImage,
+                            previewGridProps?.gridListTitleBar?.titlePosition === 'top'
+                        )}
 
                         <GridListTileBar
                             title={fileTitle}
-                            titlePosition="bottom" // TODO make configurable
-                            actionPosition="" // TODO make configurable
                             actionIcon={
                                 <IconButton aria-label={'remove'}
                                     className={classes.icon}
@@ -160,9 +166,9 @@ export default withWidth()(withStyles(styles, {name: 'MuiDropzonePreviewList', w
 // TODO
 /*
 
-[ ] configure position of titlebar (top bottom)
-[ ] configure position of actionbottom (left right)
-[ ] configure background of title bar
+[x] configure position of titlebar (top bottom)
+[x] configure position of actionbottom (left right)
+[x] configure background of title bar
 [ ] configure whether to stretch images or center them for single mode
 [x] fix the preview below  behaviour
 [ ] ensure the preview none behaviour works
@@ -171,5 +177,6 @@ export default withWidth()(withStyles(styles, {name: 'MuiDropzonePreviewList', w
 [ ] check to see if somethings can be configured via the pallette for the preview
 [ ] mouseover of remove button look a little bit less potent than it did
 get tile list working for files
+[x] Maybe dull the message a little bit when files are active (or hide it, or better make it configurable)
 
 */
