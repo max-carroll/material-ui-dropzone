@@ -7,6 +7,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import clsx from 'clsx';
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import {GridList, GridListTile} from '@material-ui/core';
 
 const styles = ({palette, shape, spacing}) => ({
     root: {
@@ -29,7 +30,6 @@ const styles = ({palette, shape, spacing}) => ({
         },
     },
     image: {
-        height: 100,
         width: 'initial',
         maxWidth: '100%',
         color: palette.text.primary,
@@ -83,28 +83,33 @@ function PreviewList({
     }
 
     return (
-        <Grid
-            spacing={2}
-            {...previewGridProps.container}
-            {...containerProps}
-            container={true}
+    // <Grid
+    //     spacing={2}
+    //     {...previewGridProps.container}
+    //     {...containerProps}
+    //     container={true}
+    //     className={clsx(classes.root, previewGridClasses.container, {[classes.rootSingle]: !isMultiple})}
+    // >
+
+        <GridList cols={4}
             className={clsx(classes.root, previewGridClasses.container, {[classes.rootSingle]: !isMultiple})}
         >
             {fileObjects.map((fileObject, i) => {
                 return (
-                    <Grid
-                        {...previewGridProps.item}
-                        item={true}
+                    <GridListTile
+
+                        // {...previewGridProps.item}
+                        // item={true}
                         key={`${fileObject.file?.name ?? 'file'}-${i}`}
-                        className={clsx(classes.imageContainer, previewGridClasses.item)}
+                        // className={clsx(classes.imageContainer, previewGridClasses.item)}
                     >
                         {getPreviewIcon(fileObject, classes)}
 
-                        {showFileNames && (
+                        {/* {showFileNames && (
                             <Typography variant="body1" component="p">
                                 {fileObject.file.name}
                             </Typography>
-                        )}
+                        )} */}
 
                         <Fab
                             onClick={handleRemove(i)}
@@ -113,10 +118,10 @@ function PreviewList({
                         >
                             <DeleteIcon />
                         </Fab>
-                    </Grid>
+                    </GridListTile>
                 );
             })}
-        </Grid>
+        </GridList>
     );
 }
 
